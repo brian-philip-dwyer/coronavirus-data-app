@@ -44,6 +44,7 @@ class App extends React.Component {
 
     componentDidMount() {
         this.getCountyData();
+        this.getPopulationData();
         this.getStateData();
         this.getZipCodeData();
     }
@@ -362,6 +363,20 @@ class App extends React.Component {
                         API Calls
     ---------------------------------------------------- 
     */
+
+    getPopulationData() {
+        axios.get('https://raw.githubusercontent.com/brian-philip-dwyer/coronavirus-nyc-app/master/public/population_data.csv')
+            .then((response) => {
+                var json = this.csvJSON(response.data);
+                var byCounty = _.groupBy(json, item => { return item.county });
+                var byState = _.groupBy(json, item => { return item.state })
+                console.log(byCounty);
+                console.log(byState);
+            })
+            .catch((error) => {
+
+            });
+    }
 
     getCountyData() {
         axios.get('https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv')
