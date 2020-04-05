@@ -15,24 +15,25 @@ class LineChart extends React.Component {
                 title: {
                     display: true,
                     text: this.props.title,
-                    fontSize: 20
+                    fontSize: 20,
+                    fontColor: 'rgb(125, 133, 126)',
+                    fontFamily: "Roboto, Helvetica, Arial, sans-serif",
+                    fontStyle: ""
+
                 },
                 scales: {
                     xAxes: [{
                         ticks: {
-                            userCallback: function (item, index) {
-                                if (index === 0) return item;
-                                if (index === 1) return;
-                                if (((index) % 2) === 0) return item;
-                            },
-                            autoSkip: false,
-                            fontSize: 10
+                            autoSkip: true,
+                            fontSize: 10,
+                            // maxRotation: 45
                         }
                     }],
                     yAxes: [{
+                        position: this.props.yAxisPosition,
                         ticks: {
                             autoSkip: false,
-                            fontSize: 10
+                            fontSize: 10,
                         }
                     }]
                 },
@@ -51,7 +52,7 @@ class LineChart extends React.Component {
                     pointRadius: 2,
                     borderColor: this.props.color,
                     borderWidth: 1,
-                    lineTension: 0
+                    lineTension: .2
                 }]
             }
         });

@@ -6,7 +6,8 @@ import LineChart from './LineChart.js';
 import { Container, Column, Row } from "react-bootstrap-grid-component";
 
 import './App.css';
-import SimpleSelect from './material-ui/select.js';
+import Select from './material-ui/Select.js';
+import Table from './material-ui/Table.js';
 
 class App extends React.Component {
 
@@ -37,6 +38,8 @@ class App extends React.Component {
         delta_casesByDay_Labels: [],
         delta_deathsByDay_Data: [],
         delta_deathsByDay_Labels: [],
+
+        tableData: []
     };
 
     componentDidMount() {
@@ -55,7 +58,7 @@ class App extends React.Component {
                     < Container>
                         <Row>
                             <Column size={2}>
-                                <SimpleSelect
+                                <Select
                                     id="1"
                                     options={this.state.states}
                                     isDisabled={this.state.stateSelectIsDisabled}
@@ -64,7 +67,7 @@ class App extends React.Component {
                                 />
                             </Column>
                             <Column size={2}>
-                                <SimpleSelect
+                                <Select
                                     id="2"
                                     options={this.state.counties}
                                     isDisabled={this.state.countySelectIsDisabled}
@@ -84,6 +87,7 @@ class App extends React.Component {
                                         title={this.state.casesByDay_Title}
                                         color="#3E517A"
                                         legend="Cases"
+                                        yAxisPosition = "right"
                                     />
                                 </div>
                             </Column>
@@ -95,6 +99,7 @@ class App extends React.Component {
                                         title={this.state.deathsByDay_Title}
                                         color="#3E517A"
                                         legend="Deaths"
+                                        yAxisPosition = "right"
                                     />
                                 </div>
                             </Column>
@@ -108,6 +113,7 @@ class App extends React.Component {
                                         title={this.state.delta_casesByDay_Title}
                                         color="#3E517A"
                                         legend="Rate of Change in Cases"
+                                        yAxisPosition = "right"
                                     />
                                 </div>
                             </Column>
@@ -119,10 +125,21 @@ class App extends React.Component {
                                         title={this.state.delta_deathsByDay_Title}
                                         color="#3E517A"
                                         legend="Rate of Change in Deaths"
+                                        yAxisPosition = "right"
                                     />
                                 </div>
                             </Column>
                         </Row ><br></br><br></br><br></br><br></br>
+                        <Row>
+                            <Column size={12}>
+                                <Table
+                                    tableData={this.state.tableData} >
+                                </Table>
+                            </Column> 
+                            {/* <Column size={4}>
+                                
+                            </Column>  */}
+                        </Row>
                     </Container>
                 </div>
             );
@@ -135,7 +152,7 @@ class App extends React.Component {
                     < Container>
                         <Row>
                             <Column size={2}>
-                                <SimpleSelect
+                                <Select
                                     id="1"
                                     options={this.state.states}
                                     isDisabled={this.state.stateSelectIsDisabled}
@@ -144,7 +161,7 @@ class App extends React.Component {
                                 />
                             </Column>
                             <Column size={2}>
-                                <SimpleSelect
+                                <Select
                                     id="2"
                                     options={this.state.counties}
                                     isDisabled={this.state.countySelectIsDisabled}
@@ -235,7 +252,9 @@ class App extends React.Component {
     }
 
     // Renders 4 line charts with data
+    // prepareChartsRender()
     getSelectedData(json, selection, isCounty) {
+        
         var caseData = [];
         var deathData = [];
         var caseLabels = [];
@@ -265,11 +284,16 @@ class App extends React.Component {
                 delta_deathData.push(0);
             else
                 delta_deathData.push(deltaDeaths);
-        })
+        });
 
         var pageTitle = "";
-        if(isCounty) pageTitle = selection + " County, " + this.state.selectedState; 
-        else pageTitle = selection;
+        if(isCounty) {
+            pageTitle = selection + " County, " + this.state.selectedState;
+        } 
+        else {
+            this.getTableData(selection);
+            pageTitle = selection;
+        }
 
         this.setState({
             isLoading: false,
@@ -282,6 +306,33 @@ class App extends React.Component {
             delta_casesByDay_Labels: delta_caseLabels,
             delta_deathsByDay_Data: delta_deathData,
             delta_deathsByDay_Labels: delta_deathLabels
+        });
+    }
+
+    getTableData(selection) {
+        var groupedJSON = [];
+        if(selection === "United States of America")
+            groupedJSON = _.groupBy(this.state.USData_JSON, state => { return state.state});
+        else {
+            groupedJSON = _.filter(this.state.selectedStateData_JSON, item => { return item.state === selection });
+            groupedJSON = _.groupBy(groupedJSON, item => { return item.county });
+        }
+
+        var json = [];
+        Object.keys(groupedJSON).forEach(countyName => {
+             var cases = Number(groupedJSON[countyName][groupedJSON[countyName].length - 1].cases);
+             var deaths = Number(groupedJSON[countyName][groupedJSON[countyName].length - 1].deaths);
+            json.push({
+                name: countyName,
+                cases: cases,
+                deaths: deaths,
+                cfr: (((deaths / cases) * 100).toFixed(2)) + "%",
+                perCapita: 0,
+            });
+        });
+
+        this.setState({
+            tableData: json
         });
     }
 
@@ -302,7 +353,7 @@ class App extends React.Component {
                 deaths: deathSum
             });
         });
-
+        console.log(this.state.USData_JSON);
         this.getSelectedData(json, "United States of America", false)
     }
 

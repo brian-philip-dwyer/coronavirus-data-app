@@ -1,5 +1,5 @@
 body {
-    background: lightgray;
+    /* background: rgb(225, 223, 223); */
 }
 
 .page-title {
@@ -8,4 +8,17 @@ body {
     font-size: 24px;
     text-align: center;
     color: darkslategray;
+}
+
+.MuiMenuItem-root {
+    font-size: 12px !important;
+}
+
+.MuiSelect-selectMenu {
+    font-size: 12px !important;
+}
+
+.MuiTableCell-root {
+    line-height: .75 !important;
+    font-size: 12px;
 }

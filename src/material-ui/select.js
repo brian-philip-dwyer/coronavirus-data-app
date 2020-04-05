@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import MatSelect from '@material-ui/core/Select';
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SimpleSelect(props) {
+export default function Select(props) {
     const classes = useStyles();
     const [value, setValue] = React.useState('');
 
@@ -28,7 +28,7 @@ export default function SimpleSelect(props) {
         <div>
             <FormControl className={classes.formControl}>
                 <InputLabel id="demo-simple-select-label">{props.placeholder}</InputLabel>
-                <Select disabled={props.isDisabled}
+                <MatSelect disabled={props.isDisabled}
                     value={value}
                     onChange={onSelectionChange}
                 >
@@ -39,7 +39,7 @@ export default function SimpleSelect(props) {
                             );
                         })
                     }                    
-                </Select>
+                </MatSelect>
             </FormControl>
             
         </div>
