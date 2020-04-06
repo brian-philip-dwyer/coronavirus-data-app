@@ -32,19 +32,29 @@ class App extends React.Component {
         deathsByDay_Data: [],
         deathsByDay_Labels: [],
 
-        delta_casesByDay_Title: 'Rate of Change in # Cases by Day',
-        delta_deathsByDay_Title: 'Rate of Change in # Deaths by Day',
+        delta_casesByDay_Title: 'Rate of Change in Cases by Day',
+        delta_deathsByDay_Title: 'Rate of Change in Deaths by Day',
         delta_casesByDay_Data: [],
         delta_casesByDay_Labels: [],
         delta_deathsByDay_Data: [],
         delta_deathsByDay_Labels: [],
 
-        tableData: []
+        tableTitle: "",
+        tableData: [],
+        populationByState: [],
+
+        projectedCases_Title: "Projected Cases by Day",
+        projectedCases_Data: [],
+        projectedCases_Labels: [],
+
+        projectedDeaths_Title: "Projected Deaths by Day",
+        projectedDeaths_Data: [],
+        projectedDeaths_Labels: [],
     };
 
     componentDidMount() {
+        //this.getPopulationData();
         this.getCountyData();
-        this.getPopulationData();
         this.getStateData();
         this.getZipCodeData();
     }
@@ -57,28 +67,34 @@ class App extends React.Component {
                     <br></br>
                     <br></br>
                     < Container>
+                        
+                        <h1 className="page-title">Coronavirus Data: Cases and Death Toll</h1>
+                        <h4 className="page-title">{this.state.pageTitle}</h4>
                         <Row>
-                            <Column size={2}>
-                                <Select
-                                    id="1"
-                                    options={this.state.states}
-                                    isDisabled={this.state.stateSelectIsDisabled}
-                                    placeholder="State"
-                                    onSelectionChange={this.onSelectionChange}
-                                />
+                            <Column size={1}>
+                                <div className="state-filter">
+                                    <Select className="state-selection"
+                                        id="1"
+                                        options={this.state.states}
+                                        isDisabled={this.state.stateSelectIsDisabled}
+                                        placeholder="State"
+                                        onSelectionChange={this.onSelectionChange}
+                                    />
+                                </div>
                             </Column>
-                            <Column size={2}>
-                                <Select
-                                    id="2"
-                                    options={this.state.counties}
-                                    isDisabled={this.state.countySelectIsDisabled}
-                                    placeholder="County"
-                                    onSelectionChange={this.onSelectionChange}
-                                />
+                            <Column size={1}>
+                                <div className="county-filter">
+                                    <Select
+                                        id="2"
+                                        options={this.state.counties}
+                                        isDisabled={this.state.countySelectIsDisabled}
+                                        placeholder="County"
+                                        onSelectionChange={this.onSelectionChange}
+                                    />
+                                </div>
                             </Column>
                             <Column size={8}></Column>
-                        </Row>
-                        <h1 className="page-title">{this.state.pageTitle}</h1>
+                        </Row><br></br><br></br>
                         <Row>
                             <Column md="6">
                                 <div>
@@ -86,9 +102,9 @@ class App extends React.Component {
                                         data={this.state.casesByDay_Data}
                                         labels={this.state.casesByDay_Labels}
                                         title={this.state.casesByDay_Title}
-                                        color="#3E517A"
+                                        color="#b3b3b3"
                                         legend="Cases"
-                                        yAxisPosition = "right"
+                                        yAxisPosition="right"
                                     />
                                 </div>
                             </Column>
@@ -98,9 +114,9 @@ class App extends React.Component {
                                         data={this.state.deathsByDay_Data}
                                         labels={this.state.deathsByDay_Labels}
                                         title={this.state.deathsByDay_Title}
-                                        color="#3E517A"
+                                        color="#b3b3b3"
                                         legend="Deaths"
-                                        yAxisPosition = "right"
+                                        yAxisPosition="right"
                                     />
                                 </div>
                             </Column>
@@ -112,9 +128,9 @@ class App extends React.Component {
                                         data={this.state.delta_casesByDay_Data}
                                         labels={this.state.delta_casesByDay_Labels}
                                         title={this.state.delta_casesByDay_Title}
-                                        color="#3E517A"
+                                        color="#b3b3b3"
                                         legend="Rate of Change in Cases"
-                                        yAxisPosition = "right"
+                                        yAxisPosition="right"
                                     />
                                 </div>
                             </Column>
@@ -124,23 +140,50 @@ class App extends React.Component {
                                         data={this.state.delta_deathsByDay_Data}
                                         labels={this.state.delta_deathsByDay_Labels}
                                         title={this.state.delta_deathsByDay_Title}
-                                        color="#3E517A"
+                                        color="#b3b3b3"
                                         legend="Rate of Change in Deaths"
+                                        yAxisPosition="right"
+                                    />
+                                </div>
+                            </Column>
+                        </Row ><br></br><br></br><br></br>
+                        {/* <Row>
+                            <Column md="6">
+                                <div>
+                                    <LineChart
+                                        data={this.state.projectedCases_Data}
+                                        labels={this.state.projectedCases_Labels}
+                                        title={this.state.projectedCases_Title}
+                                        color="#b3b3b3"
+                                        legend="Projected Cases"
                                         yAxisPosition = "right"
                                     />
                                 </div>
                             </Column>
-                        </Row ><br></br><br></br><br></br><br></br>
+                            <Column md="6">
+                                <div>
+                                    <LineChart
+                                        data={this.state.projectedDeaths_Data}
+                                        labels={this.state.projectedDeaths_Labels}
+                                        title={this.state.projectedDeaths_Title}
+                                        color="#b3b3b3"
+                                        legend="Projected Deaths"
+                                        yAxisPosition = "right"
+                                    />
+                                </div>
+                            </Column>
+                        </Row ><br></br><br></br><br></br><br></br> */}
+                        <h1 className="page-title">{this.state.tableTitle}</h1>
                         <Row>
                             <Column size={12}>
                                 <Table
                                     tableData={this.state.tableData} >
                                 </Table>
-                            </Column> 
-                            {/* <Column size={4}>
-                                
-                            </Column>  */}
-                        </Row>
+                            </Column>
+                            {/* <Column size={6}>
+
+                            </Column> */}
+                        </Row><br></br><br></br>
                     </Container>
                 </div>
             );
@@ -189,12 +232,7 @@ class App extends React.Component {
     csvJSON(csv) {
         var lines = csv.split("\n");
         var result = [];
-        var headersTemp = lines[0].split(",");
-        var headers = [];
-        headersTemp.forEach(header => {
-            var x = header.replace(/['"]+/g, '')
-            headers.push(x);
-        });
+        var headers = lines[0].split(",");
         for (var i = 1; i < lines.length; i++) {
             var obj = {};
             var currentline = lines[i].split(",");
@@ -203,7 +241,7 @@ class App extends React.Component {
             }
             result.push(obj);
         }
-        return JSON.parse(JSON.stringify(result)); //JSON
+        return result;
     }
 
     // Helper for date labels
@@ -216,7 +254,7 @@ class App extends React.Component {
     // Select-element callback
     onSelectionChange = ((selection, id) => {
         if (parseInt(id) === 1) {
-            if(selection === "United States") {
+            if (selection === "United States") {
                 this.setState({ countySelectIsDisabled: true })
                 this.renderUSCharts();
                 return;
@@ -253,9 +291,8 @@ class App extends React.Component {
     }
 
     // Renders 4 line charts with data
-    // prepareChartsRender()
     getSelectedData(json, selection, isCounty) {
-        
+
         var caseData = [];
         var deathData = [];
         var caseLabels = [];
@@ -277,28 +314,33 @@ class App extends React.Component {
             delta_caseLabels.push(dayLabel);
             delta_deathLabels.push(dayLabel);
 
-            if(!Number.isFinite(deltaCases))
+            if (!Number.isFinite(deltaCases))
                 delta_caseData.push(0);
             else
                 delta_caseData.push(deltaCases);
-            if(!Number.isFinite(deltaDeaths))
+            if (!Number.isFinite(deltaDeaths))
                 delta_deathData.push(0);
             else
                 delta_deathData.push(deltaDeaths);
         });
 
         var pageTitle = "";
-        if(isCounty) {
+        var tableTitle = "";
+        if (isCounty) {
             pageTitle = selection + " County, " + this.state.selectedState;
-        } 
+            tableTitle = "Statistics: By County"
+        }
         else {
             this.getTableData(selection);
             pageTitle = selection;
+            if(selection !== "United States of America") tableTitle = "Statistics: By County"
+            else tableTitle = "Statistics: By State"
         }
 
         this.setState({
             isLoading: false,
             pageTitle: pageTitle,
+            tableTitle: tableTitle,
             casesByDay_Data: caseData,
             casesByDay_Labels: caseLabels,
             deathsByDay_Data: deathData,
@@ -308,23 +350,30 @@ class App extends React.Component {
             delta_deathsByDay_Data: delta_deathData,
             delta_deathsByDay_Labels: delta_deathLabels
         });
+
+        //this.getProjectedData();
     }
 
     getTableData(selection) {
         var groupedJSON = [];
-        if(selection === "United States of America")
-            groupedJSON = _.groupBy(this.state.USData_JSON, state => { return state.state});
+        var population = [];
+        if (selection === "United States of America") {
+            groupedJSON = _.groupBy(this.state.USData_JSON, state => { return state.state });
+            population = this.state.populationByState;
+        }
         else {
             groupedJSON = _.filter(this.state.selectedStateData_JSON, item => { return item.state === selection });
             groupedJSON = _.groupBy(groupedJSON, item => { return item.county });
         }
 
         var json = [];
-        Object.keys(groupedJSON).forEach(countyName => {
-             var cases = Number(groupedJSON[countyName][groupedJSON[countyName].length - 1].cases);
-             var deaths = Number(groupedJSON[countyName][groupedJSON[countyName].length - 1].deaths);
+        Object.keys(groupedJSON).forEach(item => {
+            //var statePopulation = population.filter(x => x.state === item);
+            //console.log(population)
+            var cases = Number(groupedJSON[item][groupedJSON[item].length - 1].cases);
+            var deaths = Number(groupedJSON[item][groupedJSON[item].length - 1].deaths);
             json.push({
-                name: countyName,
+                name: item,
                 cases: cases,
                 deaths: deaths,
                 cfr: (((deaths / cases) * 100).toFixed(2)) + "%",
@@ -354,8 +403,74 @@ class App extends React.Component {
                 deaths: deathSum
             });
         });
-        console.log(this.state.USData_JSON);
         this.getSelectedData(json, "United States of America", false)
+    }
+
+    getProjectedData() {
+        var casesPastWeek = this.state.delta_casesByDay_Data.slice(this.state.delta_casesByDay_Data.length - 8, this.state.delta_casesByDay_Data.length - 1)
+        var deathsPastWeek = this.state.delta_deathsByDay_Data.slice(this.state.delta_deathsByDay_Data.length - 8, this.state.delta_deathsByDay_Data.length - 1)
+
+        var casesChangeByDay = [];
+        var deathsChangeByDay = [];
+
+        for (var i = 0; i < casesPastWeek.length - 1; i++) {
+            casesChangeByDay.push(casesPastWeek[i + 1] - casesPastWeek[i]);
+        }
+        var caseAverage = 0;
+        for (var i = 0; i < casesChangeByDay.length; i++) {
+            caseAverage += casesChangeByDay[i];
+        }
+        caseAverage = caseAverage / casesChangeByDay.length;
+        //console.log(caseAverage);]
+        console.log(casesPastWeek);
+
+        for (var i = 0; i < deathsPastWeek.length - 1; i++) {
+            deathsChangeByDay.push(deathsPastWeek[i + 1] - deathsPastWeek[i]);
+        }
+        var deathAverage = 0;
+        for (var i = 0; i < deathsChangeByDay.length; i++) {
+            deathAverage += deathsChangeByDay[i];
+        }
+        deathAverage = deathAverage / deathsChangeByDay.length;
+        //console.log(deathAverage);
+
+        var futureCases = [];
+        var futureDeaths = [];
+
+        var casesByDay = this.state.casesByDay_Data;
+        var deathsByDay = this.state.deathsByDay_Data;
+
+        var labels = this.state.casesByDay_Labels;
+
+        for (var i = 0; i < 14; i++) {
+            var change = (casesByDay[casesByDay.length - 1] - casesByDay[casesByDay.length - 2] * (1 - (caseAverage / 100)));
+            console.log(change)
+            var newCasePoint = casesByDay[casesByDay.length - 1] + change;
+
+            change = (deathsByDay[deathsByDay.length - 1] - deathsByDay[deathsByDay.length - 2] * (1 - (deathAverage / 100)));
+            var newDeathPoint = deathsByDay[deathsByDay.length - 1] + change;
+
+            futureCases.push(Math.round(newCasePoint));
+            futureDeaths.push(Math.round(newDeathPoint));
+
+            labels.push("04/" + (i + 6));
+
+            casesByDay.push(Math.round(newCasePoint))
+            deathsByDay.push(Math.round(newDeathPoint));
+        }
+
+        console.log(this.state.casesByDay_Data)
+        // console.log(casesByDay);
+        // console.log(deathsByDay);
+        // console.log(futureCases);
+        // console.log(futureDeaths);
+
+        this.setState({
+            projectedCases_Data: casesByDay,
+            projectedCases_Labels: labels,
+            projectedDeaths_Data: deathsByDay,
+            projectedDeaths_Labels: labels,
+        });
     }
 
     /* 
@@ -368,10 +483,38 @@ class App extends React.Component {
         axios.get('https://raw.githubusercontent.com/brian-philip-dwyer/coronavirus-nyc-app/master/public/population_data.csv')
             .then((response) => {
                 var json = this.csvJSON(response.data);
-                var byCounty = _.groupBy(json, item => { return item.county });
-                var byState = _.groupBy(json, item => { return item.state })
-                console.log(byCounty);
-                console.log(byState);
+                var jsonString = JSON.stringify(json);
+                for (var i = 0; i < jsonString.length - 1; i++) {
+                    if ((jsonString[i] === '\\' && jsonString[i + 1] === "r") || jsonString[i] === '\\') {
+                        jsonString = jsonString.replace(jsonString[i + 1], "");
+                        jsonString = jsonString.replace(jsonString[i], "");
+
+                    }
+                }
+                for (var i = 0; i < jsonString.length; i++) {
+                    if (jsonString[i] === '\\') {
+                        jsonString = jsonString.replace(jsonString[i], "");
+                    }
+                }
+                jsonString = JSON.parse(jsonString);
+
+                var byState = _.groupBy(jsonString, item => {
+                    item.county = item.county.replace(' County', '');
+                    return item.state
+                })
+
+                var populationByState = [];
+                Object.keys(byState).forEach(state => {
+                    var population = 0;
+                    byState[state].forEach(county => {
+                        population += parseInt(county.population);
+                    });
+                    populationByState.push({ state: state, population: Number(population) })
+                });
+
+                this.setState = ({
+                    populationByState: populationByState
+                });
             })
             .catch((error) => {
 
@@ -387,7 +530,10 @@ class App extends React.Component {
                 var statesJSON = _.groupBy(json, item => { return item.state });
                 var states = [];
                 Object.keys(statesJSON).forEach(key => states.push(key));
+                //states.splice(states.indexOf("District of Columbia"), 1);
+                //states.push("Washington, D.C.");
                 states = states.sort();
+                states.splice(states.indexOf("Northern Mariana Islands"), 1);
                 states.unshift("United States");
                 this.setState({
                     states: states,

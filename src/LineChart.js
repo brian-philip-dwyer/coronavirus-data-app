@@ -16,17 +16,19 @@ class LineChart extends React.Component {
                     display: true,
                     text: this.props.title,
                     fontSize: 20,
-                    fontColor: 'rgb(125, 133, 126)',
+                    fontColor: '#b3b3b3',
                     fontFamily: "Roboto, Helvetica, Arial, sans-serif",
-                    fontStyle: ""
-
+                    fontStyle: "",
                 },
                 scales: {
                     xAxes: [{
                         ticks: {
                             autoSkip: true,
                             fontSize: 10,
-                            // maxRotation: 45
+                            fontColor: '#999999'
+                        },
+                        gridLines: {
+                            color: 'rgb(145, 145, 145, .2)'
                         }
                     }],
                     yAxes: [{
@@ -34,12 +36,15 @@ class LineChart extends React.Component {
                         ticks: {
                             autoSkip: false,
                             fontSize: 10,
+                            fontColor: '#999999'
+                        },
+                        gridLines: {
+                            color: 'rgb(145, 145, 145, .2)'
                         }
                     }]
                 },
                 legend: {
                     display: false,
-                    position: 'top'
                 }
             },
             data: {

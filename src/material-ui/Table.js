@@ -12,10 +12,6 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import NumberFormat from 'react-number-format';
 
-function createData(name, cases, deaths, cfr, perCapita) {
-    return { name, cases, deaths, cfr, perCapita };
-}
-
 var rows = [];
 
 // Table sorting 
@@ -51,7 +47,7 @@ const headCells = [
     { id: "cases", numeric: true, disablePadding: false, label: "Cases" },
     { id: "deaths", numeric: true, disablePadding: false, label: "Deaths" },
     { id: "cfr", numeric: true, disablePadding: false, label: "CFR, %" },
-    { id: "perCapita", numeric: true, disablePadding: false, label: "Per 10k" }
+    // { id: "perCapita", numeric: true, disablePadding: false, label: "Per 10k" }
 ];
 
 function EnhancedTableHead(props) {
@@ -133,7 +129,9 @@ const useStyles = makeStyles(theme => ({
         marginBottom: theme.spacing(2)
     },
     table: {
-        minWidth: 750
+        minWidth: 500,
+        backgroundColor: "rgb(0, 26, 51)",
+        borderColor: 'black'
     },
     visuallyHidden: {
         border: 0,
@@ -153,6 +151,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function EnhancedTable(props) {
     rows = props.tableData;
+    rows = rows.sort((a, b) => b.cases - a.cases);
 
     const classes = useStyles();
     const [order, setOrder] = React.useState("asc");
@@ -232,9 +231,9 @@ export default function EnhancedTable(props) {
                                             <TableCell>
                                               <NumberFormat value={row.cfr} thousandSeparator={true} displayType={'text'}></NumberFormat>
                                             </TableCell>
-                                            <TableCell>
+                                            {/* <TableCell>
                                               <NumberFormat value={row.perCapita} thousandSeparator={true} displayType={'text'}></NumberFormat>
-                                            </TableCell>
+                                            </TableCell> */}
                                         </TableRow>
                                     );
                                 })}
