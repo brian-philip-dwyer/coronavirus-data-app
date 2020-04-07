@@ -7,6 +7,7 @@ This React wep app uses data reported daily by the New York Times to create usef
 ### Data Source
 
 All Covid-19 related data used in this app comes from on up-to-date GitHub repository created by the New York Times. A special thanks to them.
+
 Coronavirus (Covid-19) Data in the United States: https://github.com/nytimes/covid-19-data
 
 ### Technology
@@ -16,9 +17,3 @@ This application is built with React, a JavaScript frontend library. Most of the
 React: https://reactjs.org/
 Material-UI: https://material-ui.com/
 Chart.js: https://www.chartjs.org/
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-# coronavirus-nyc-app
