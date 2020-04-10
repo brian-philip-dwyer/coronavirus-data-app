@@ -1,7 +1,7 @@
 import React from 'react';
 import Chart from 'chart.js'
 
-class LineChart extends React.Component {
+class BarChart extends React.Component {
 
     constructor(props) {
         super(props);
@@ -10,36 +10,42 @@ class LineChart extends React.Component {
 
     componentDidMount() {
         this.myChart = new Chart(this.chartRef.current, {
-            type: 'line',
+            type: 'bar',
             options: {
+                animation: {
+                    duration: 0
+                },
                 title: {
-                    display: true,
+                    display: false,
                     text: this.props.title,
                     fontSize: 20,
-                    fontColor: '#b3b3b3',
+                    fontColor: '#2d4052',
                     fontFamily: "Roboto, Helvetica, Arial, sans-serif",
                     fontStyle: "",
                 },
                 scales: {
                     xAxes: [{
                         ticks: {
-                            autoSkip: true,
                             fontSize: 10,
-                            fontColor: '#999999'
+                            fontColor: '#2d4052',
+                            padding: 10
                         },
                         gridLines: {
+                            display: false,
+                            drawTicks: false,
                             color: 'rgb(145, 145, 145, .2)'
                         }
                     }],
                     yAxes: [{
                         position: this.props.yAxisPosition,
                         ticks: {
-                            autoSkip: false,
                             fontSize: 10,
-                            fontColor: '#999999'
+                            fontColor: '#2d4052',
+                            padding: 5
                         },
                         gridLines: {
-                            color: 'rgb(145, 145, 145, .2)'
+                            drawTicks: false,
+                            color: 'rgb(45, 45, 45, .2)'
                         }
                     }]
                 },
@@ -49,16 +55,18 @@ class LineChart extends React.Component {
             },
             data: {
                 labels: this.props.labels,
-                datasets: [{
-                    label: this.props.legend,
-                    data: this.props.data,
-                    fill: 'none',
-                    backgroundColor: this.props.color,
-                    pointRadius: 2,
-                    borderColor: this.props.color,
-                    borderWidth: 1,
-                    lineTension: .2
-                }]
+                datasets: [
+                    {
+                        label: this.props.legend,
+                        data: this.props.data,
+                        fill: 'none',
+                        backgroundColor: this.props.color,
+                        pointRadius: 2,
+                        borderColor: this.props.color,
+                        borderWidth: 1,
+                        lineTension: .2
+                    }
+                ]
             }
         });
     }
@@ -74,4 +82,4 @@ class LineChart extends React.Component {
     }
 }
 
-export default LineChart;
+export default BarChart;

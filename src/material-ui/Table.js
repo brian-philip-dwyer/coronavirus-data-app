@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { lighten, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -13,6 +13,7 @@ import Paper from "@material-ui/core/Paper";
 import NumberFormat from 'react-number-format';
 
 var rows = [];
+var pageNum = 0;
 
 // Table sorting 
 function descendingComparator(a, b, orderBy) {
@@ -45,7 +46,9 @@ function stableSort(array, comparator) {
 const headCells = [
     { id: "name", numeric: false, disablePadding: false, label: "Name" },
     { id: "cases", numeric: true, disablePadding: false, label: "Cases" },
+    { id: "cases24hours", numeric: true, disablePadding: false, label: "Δ 24 hours" },
     { id: "deaths", numeric: true, disablePadding: false, label: "Deaths" },
+    { id: "deaths24hours", numeric: true, disablePadding: false, label: "Δ 24 hours" },
     { id: "cfr", numeric: true, disablePadding: false, label: "CFR, %" },
     // { id: "perCapita", numeric: true, disablePadding: false, label: "Per 10k" }
 ];
@@ -94,31 +97,10 @@ EnhancedTableHead.propTypes = {
     classes: PropTypes.object.isRequired,
     numSelected: PropTypes.number.isRequired,
     onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
     order: PropTypes.oneOf(["asc", "desc"]).isRequired,
     orderBy: PropTypes.string.isRequired,
     rowCount: PropTypes.number.isRequired
 };
-
-const useToolbarStyles = makeStyles(theme => ({
-    root: {
-        paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(1)
-    },
-    highlight:
-        theme.palette.type === "light"
-            ? {
-                color: theme.palette.secondary.main,
-                backgroundColor: lighten(theme.palette.secondary.light, 0.85)
-            }
-            : {
-                color: theme.palette.text.primary,
-                backgroundColor: theme.palette.secondary.dark
-            },
-    title: {
-        flex: "1 1 100%"
-    }
-}));
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -130,8 +112,8 @@ const useStyles = makeStyles(theme => ({
     },
     table: {
         minWidth: 500,
-        backgroundColor: "rgb(0, 26, 51)",
-        borderColor: 'black'
+        backgroundColor: "rgb(175, 175, 175)",
+        borderColor: 'rgb(175, 175, 175)',
     },
     visuallyHidden: {
         border: 0,
@@ -150,6 +132,7 @@ const useStyles = makeStyles(theme => ({
 
 
 export default function EnhancedTable(props) {
+
     rows = props.tableData;
     rows = rows.sort((a, b) => b.cases - a.cases);
 
@@ -165,10 +148,6 @@ export default function EnhancedTable(props) {
         const isAsc = orderBy === property && order === "asc";
         setOrder(isAsc ? "desc" : "asc");
         setOrderBy(property);
-    };
-
-    const handleSelectAllClick = event => {
-        
     };
 
     const handleClick = (event, name) => {
@@ -199,16 +178,13 @@ export default function EnhancedTable(props) {
                             numSelected={selected.length}
                             order={order}
                             orderBy={orderBy}
-                            onSelectAllClick={handleSelectAllClick}
                             onRequestSort={handleRequestSort}
                             rowCount={rows.length}
                         />
                         <TableBody>
                             {stableSort(rows, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row, index) => {
-                                    const labelId = `enhanced-table-checkbox-${index}`;
-
+                                .map((row) => {
                                     return (
                                         <TableRow
                                             hover
@@ -217,19 +193,26 @@ export default function EnhancedTable(props) {
                                             key={row.name}
                                         >
                                             <TableCell />
-                                            <TableCell
-                                                 
-                                            >
+                                            <TableCell>
                                                 {row.name}
                                             </TableCell>
+
                                             <TableCell>
-                                              <NumberFormat value={row.cases} thousandSeparator={true} displayType={'text'}></NumberFormat>
+                                                <NumberFormat value={row.cases} thousandSeparator={true} displayType={'text'}></NumberFormat>
                                             </TableCell>
                                             <TableCell>
-                                              <NumberFormat value={row.deaths} thousandSeparator={true} displayType={'text'}></NumberFormat>
+                                                <NumberFormat value={row.cases24hours} thousandSeparator={true} displayType={'text'}></NumberFormat>
+                                            </TableCell>
+
+                                            <TableCell>
+                                                <NumberFormat value={row.deaths} thousandSeparator={true} displayType={'text'}></NumberFormat>
                                             </TableCell>
                                             <TableCell>
-                                              <NumberFormat value={row.cfr} thousandSeparator={true} displayType={'text'}></NumberFormat>
+                                                <NumberFormat value={row.deaths24hours} thousandSeparator={true} displayType={'text'}></NumberFormat>
+                                            </TableCell>
+
+                                            <TableCell>
+                                                <NumberFormat value={row.cfr} thousandSeparator={true} displayType={'text'}></NumberFormat>
                                             </TableCell>
                                             {/* <TableCell>
                                               <NumberFormat value={row.perCapita} thousandSeparator={true} displayType={'text'}></NumberFormat>
@@ -246,7 +229,7 @@ export default function EnhancedTable(props) {
                     </Table>
                 </TableContainer>
                 <TablePagination
-                    rowsPerPageOptions={[5, 10, 25, 50, 100]}
+                    rowsPerPageOptions={[5, 10, 25, 50]}
                     component="div"
                     count={rows.length}
                     rowsPerPage={rowsPerPage}

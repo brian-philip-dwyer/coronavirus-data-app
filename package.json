@@ -1,5 +1,5 @@
 {
-  "name": "coronavirus-nyc-app",
+  "name": "coronavirus-data-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -17,8 +17,10 @@
     "react-bootstrap-grid-component": "^0.2.3",
     "react-chartjs-2": "^2.9.0",
     "react-dom": "^16.13.1",
+    "react-native-elements": "^1.2.7",
     "react-number-format": "^4.4.1",
     "react-scripts": "3.4.1",
+    "react-share": "^4.1.0",
     "underscore": "^1.10.2"
   },
   "scripts": {
