@@ -149,15 +149,15 @@ class App extends React.Component {
                         
                         {/* Cases charts */}
                         <Row>
-                            <Column size={6}>
+                            <Column md={6} xs={12}>
                                 <div className="chart-title">Total Cases by Day<Tooltip title="The cumulative amount of confirmed COVID-19 cases, by day."><InfoIcon className="info-icon"></InfoIcon></Tooltip></div>
                             </Column>
-                            <Column size={6}>
+                            <Column md={6} xs={12}>
                                 <div className="chart-title">Cases per Day<Tooltip title="The count of newly confirmed COVID-19 cases, by day."><InfoIcon className="info-icon"></InfoIcon></Tooltip></div>
                             </Column>
                         </Row>
                         <Row>
-                            <Column md="6">
+                            <Column md={6} xs={12}>
                                 <div>
                                     <Card>
                                         <LineChart
@@ -171,7 +171,7 @@ class App extends React.Component {
                                     </Card>
                                 </div>
                             </Column>
-                            <Column md="6">
+                            <Column md={6} xs={12}>
                                 <div>
                                     <Card>
                                         <BarChart
@@ -269,7 +269,7 @@ class App extends React.Component {
 
                         <div className="chart-title">{this.state.tableTitle}</div>
                         <Row>
-                            <Column size={12}>
+                            <Column md={12} xs={12}>
                                 <Table
                                     tableData={this.state.tableData}
                                 />

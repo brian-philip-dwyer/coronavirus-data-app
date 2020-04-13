@@ -112,8 +112,8 @@ const useStyles = makeStyles(theme => ({
     },
     table: {
         minWidth: 500,
-        backgroundColor: "rgb(175, 175, 175)",
-        borderColor: 'rgb(175, 175, 175)',
+        backgroundColor: "rgb(210, 210, 210)",
+        borderColor: 'rgb(210, 210, 210)',
     },
     visuallyHidden: {
         border: 0,

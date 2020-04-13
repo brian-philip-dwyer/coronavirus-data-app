@@ -33,7 +33,7 @@ class BarChart extends React.Component {
                         gridLines: {
                             display: false,
                             drawTicks: false,
-                            color: 'rgb(145, 145, 145, .2)'
+                            color: 'rgb(180, 180, 180, .2)'
                         }
                     }],
                     yAxes: [{

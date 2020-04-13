@@ -1,9 +1,9 @@
 body {
-    background: rgb(80, 80, 80);
+    background: rgb(145, 145, 145);
 }
 
 .MuiAppBar-root {
-    background-color: rgb(145, 145, 145) !important;
+    background-color: rgb(180, 180, 180) !important;
 }
 
 .page-title {
@@ -53,11 +53,11 @@ body {
 }
 
 .MuiTablePagination-toolbar {
-    background: rgb(175, 175, 175) !important;
+    background: rgb(210, 210, 210) !important;
 }
 
 .MuiMenu-paper {
-    background: rgba(175, 175, 175, 0.9) !important
+    background: rgba(210, 210, 210, 0.9) !important
 }
 
 .MuiInputLabel-shrink, .MuiSvgIcon-root, .MuiSelect-icon {
@@ -73,7 +73,7 @@ body {
 }
 
 .MuiCard-root {
-    background-color: rgb(175, 175, 175) !important;
+    background-color: rgb(210, 210, 210) !important;
     padding: 20px !important;
 }
 
@@ -95,7 +95,7 @@ a {
     padding-bottom: 35px;
     padding-left: 35px;
     padding-right: 35px;
-    background-color: rgb(145, 145, 145) !important;
+    background-color: rgb(180, 180, 180) !important;
 }
 
 .share-bar {
