@@ -2,6 +2,8 @@
 
 This React wep app uses data reported daily by the New York Times to create useful data visualizations of Covid-19 cases and deaths in the U.S., down to the county-level.
 
+URL: https://us-covid19-cases.netlify.app/
+
 ### Data Source
 
 All Covid-19 related data used in this app comes from an up-to-date GitHub repository created by the New York Times. A special thanks to them.
